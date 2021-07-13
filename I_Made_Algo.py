@@ -38,15 +38,18 @@ def getMyPosition (prcSoFar):
                 stopLoss[count] = 0
                 sellPrice[count] = 0
             elif ins[-1] > sellPrice[count]:
-                if rsi.ins_rsi(ins) > 50 and pt.SMA(ins, 10)[count] <= pt.SMA(ins, 30)[count] and ins[-1] < ins[-2]:
+                # count on metric changed to -1, want the most recent SMA
+                if rsi.ins_rsi(ins) > 50 and pt.SMA(ins, 10)[-1] <= pt.SMA(ins, 30)[-1] and ins[-1] < ins[-2]:
                     currentPos[count] = 0     
                     stopLoss[count] = 0
                     sellPrice[count] = 0 
                     totalIns -= 1            
 
-        elif pt.SMA(ins, 10)[count] - pt.SMA(ins, 30)[count] > 0 and rsi.ins_rsi(ins) < 40:
+        # count on metric changed to -1
+        elif pt.SMA(ins, 10)[-1] - pt.SMA(ins, 30)[-1] > 0 and rsi.ins_rsi(ins) < 40:
             weight += 0.15
-            if pt.ATR(ins, 7)[count] - 2.5 > 0:
+            # count on metric changed to -1
+            if pt.ATR(ins, 7)[-1] - 2.5 > 0:
                 weight += 0.2
             elif RecentlyBought[count] > 0:
                 weight = 0
@@ -57,8 +60,9 @@ def getMyPosition (prcSoFar):
             RecentlyBought[count] = 5
             totalIns += 1
             weight = 0
-            stopLoss[count] = ins[-1] - 1/pt.ATR(ins, 14)[count] * 1/100 * ins[-1]
-            sellPrice[count] = ins[-1] + 1/pt.ATR(ins, 7)[count] * 1/100 * ins[-1]     
+            # count on metric changed to -1
+            stopLoss[count] = ins[-1] - 1/pt.ATR(ins, 14)[-1] * 1/100 * ins[-1]
+            sellPrice[count] = ins[-1] + 1/pt.ATR(ins, 7)[-1] * 1/100 * ins[-1]     
         
         if RecentlyBought[count] > 0:
             RecentlyBought[count] -= 1
