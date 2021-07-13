@@ -189,7 +189,8 @@ def vector_rsi_instance(data):
 
 # example with SMA function
 def SMA(data, window):
-    return pd.DataFrame(data)[0].rolling(window=window).mean()
+    return np.array(pd.DataFrame(data)[0].rolling(window=window).mean())
+    # return pd.DataFrame(data)[0].rolling(window=window).mean()
 
 # def SMA_optimized(data, window):
     
@@ -202,7 +203,8 @@ def ATR(data, window):
         TR.append(tr)
         if i == 1:
             TR.append(tr)
-    return pd.DataFrame(TR)[0].rolling(window=window).mean()
+    return np.array(pd.DataFrame(TR)[0].rolling(window=window).mean())
+
 
 # example showing what the code can do
 if __name__ == '__main__':
